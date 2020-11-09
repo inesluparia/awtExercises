@@ -23,7 +23,7 @@ public class First extends Frame implements ActionListener {
     }
 
     public First() {
-        regex = "^[0-9]{8}$";
+        regex = "[0-9]{8}";
 
         //closes the window
         addWindowListener(new WindowAdapter() {
