@@ -16,12 +16,14 @@ public class First extends Frame implements ActionListener {
     private String address;
     private String husstand;
     private String cpr;
+    String regex;
 
     public static double calculate(int husstand) {
         return husstand * 1000;
     }
 
     public First() {
+        regex = "^[0-9]{8}$";
 
         //closes the window
         addWindowListener(new WindowAdapter() {
@@ -73,13 +75,13 @@ public class First extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         address = tf1.getText();
         husstand = tf2.getText();
+        String typedCpr = tf3.getText();
+        if (typedCpr.matches(regex)){
         cpr = tf3.getText();
         result.setText("DIN UFORPLIGTEDE BEREGNET PRIS ER: " + calculate(Integer.parseInt(husstand)) + " kr");
-
-        //String regex = "^[0-3]{1}[0-9]{1}[0-1]{1}[0-2]{1}[0-9]{2}[0-9]{4}$";
-        //if (!cpr.matches(regex))
-        //    System.out.println("invalid CPR input");
-
+        } else {
+            result.setText("Invalid CPR");
+        }
 
     }
 }
