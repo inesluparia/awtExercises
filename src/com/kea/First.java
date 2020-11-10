@@ -10,20 +10,22 @@ import java.awt.event.WindowEvent;
 
 public class First extends Frame implements ActionListener {
 
-    private Label header, l1, l2, l3, result;
+    private Label header, l1, l2, l3, result, result1, result2;
     private TextField tf1, tf2, tf3;
     private Button calculate;
     private String address;
-    private String husstand;
+    private int husstand;
     private String cpr;
-    String regex;
+    String regexCPR;
+    String regexHS;
 
     public static double calculate(int husstand) {
         return husstand * 1000;
     }
 
     public First() {
-        regex = "[0-9]{8}";
+        regexCPR = "[0-9]{8}";
+        regexHS = "[0-9]{1}";
 
         //closes the window
         addWindowListener(new WindowAdapter() {
@@ -67,22 +69,44 @@ public class First extends Frame implements ActionListener {
         calculate.addActionListener(this);
 
         result = new Label("");
-        result.setBounds(160, 475, 400, 50);
+        result.setBounds(160, 475, 400, 30);
         add(result);
+
+        result1 = new Label("");
+        result1.setBounds(200, 500, 400, 30);
+        add(result1);
+
+        result2 = new Label("");
+        result2.setBounds(200, 525, 400, 30);
+        add(result2);
+
 
     }
 
     public void actionPerformed(ActionEvent e) {
         address = tf1.getText();
-        husstand = tf2.getText();
-        String typedCpr = tf3.getText();
-        if (typedCpr.matches(regex)){
-        cpr = tf3.getText();
-        result.setText("DIN UFORPLIGTEDE BEREGNET PRIS ER: " + calculate(Integer.parseInt(husstand)) + " kr");
+
+        String typedHusstand = tf2.getText();
+        if (typedHusstand.matches(regexHS)){
+            husstand = Integer.parseInt(typedHusstand);
+            result2.setText("");
+
         } else {
-            result.setText("Invalid CPR");
+            result2.setText("Invalid antal husstand, venligst prøv igen.");
+            calculate.setEnabled(true);
         }
 
+        String typedCpr = tf3.getText();
+        if (typedCpr.matches(regexCPR)){
+            cpr = tf3.getText();
+            result1.setText("");
+        } else {
+            result1.setText("Invalid CPR, venligst prøv igen.");
+            calculate.setEnabled(true);
+        }
+
+        if (husstand != 0 && cpr != null)
+            result.setText("DIN UFORPLIGTEDE BEREGNET PRIS ER: " + calculate(husstand) + " kr");
     }
 }
 
